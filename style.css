@@ -134,3 +134,24 @@ th{background:var(--th-fond);color:var(--th-texte)}
   *,*::before,*::after{animation:none !important;transition:none !important}
   html{scroll-behavior:auto}
 }
+
+/* sélecteur de langue FR | EN */
+.langues{display:flex;border:1px solid var(--filet);border-radius:99px;overflow:hidden;background:var(--carte)}
+.langues a,.langues span{padding:.3rem .8rem;font-size:.88rem;font-weight:600;text-decoration:none;color:var(--doux);transition:background-color .2s,color .2s}
+.langues a:hover{background:var(--teinte-faible);color:var(--accent)}
+.langues [aria-current]{background:var(--accent);color:var(--sur-accent)}
+
+/* portrait */
+.identite{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:.5rem}
+.identite h1{font-size:clamp(2rem,4vw,2.9rem)}
+.identite .accroche{margin-bottom:0}
+.portrait{width:clamp(96px,14vw,140px);height:auto;aspect-ratio:1;border-radius:50%;object-fit:cover;flex:none;
+  border:4px solid var(--carte);box-shadow:0 0 0 2px var(--accent),0 8px 24px var(--ombre)}
+
+/* portrait à côté du nom */
+.identite{flex-wrap:nowrap}
+.identite>div{min-width:0}
+.identite h1{font-size:clamp(1.9rem,3.1vw,2.6rem);margin:.15rem 0 .35rem}
+.identite .accroche{font-size:1.05rem}
+.portrait{width:clamp(88px,10vw,124px)}
+@media (max-width:520px){.identite{flex-wrap:wrap}.portrait{width:104px}}

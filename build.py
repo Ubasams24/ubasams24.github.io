@@ -132,6 +132,7 @@ def schema(t):
             f'<figcaption id="legende" aria-live="polite">{t["schema_def"]}</figcaption></figure>')
 
 def accueil(t):
+    alt_photo = "Portrait d’Aboubacar Samassa" if t["lang"] == "fr" else "Portrait of Aboubacar Samassa"
     cartes = "".join(f"""<a class="carte" href="referentiel.html#{c.lower()}">
       <div class="carte-tete"><strong>{c}</strong><span class="pct">0 %</span></div><p class="carte-titre">{ti}</p>
       <div class="barre" role="img" aria-label="{c} : 0 %"><i style="width:0%"></i></div>
@@ -140,9 +141,10 @@ def accueil(t):
     return f"""
 <section class="hero">
   <div class="hero-texte">
-    <p class="surtitre">{t['surtitre']}</p>
-    <h1>{NOM}</h1>
-    <p class="accroche">{t['accroche']}</p>
+    <div class="identite">
+      <img class="portrait" src="photo.png" width="480" height="480" alt="{alt_photo}">
+      <div><p class="surtitre">{t['surtitre']}</p><h1>{NOM}</h1><p class="accroche">{t['accroche']}</p></div>
+    </div>
     <p class="intro">{t['intro']}</p>
     <p class="statut">{t['statut']}</p>
     <blockquote>{t['question']}</blockquote>
@@ -193,6 +195,8 @@ def page(slug, lang):
     corps = accueil(t) if slug == "index" else interne(t, slug)
     titre = f"{NOM} — Portfolio BTS SIO SISR" if slug == "index" else f"{t['titres'][SLUGS.index(slug)]} — {NOM}"
     pied_nav = "".join(f'<li><a href="{s}.html">{l}</a></li>' for s,l in zip(SLUGS, t["nav"]))
+    lang_fr = '<a href="@@AUTRE@@" lang="fr" hreflang="fr" title="Français">FR</a>' if en else '<span aria-current="true" title="Français">FR</span>'
+    lang_en = '<span aria-current="true" title="English">EN</span>' if en else '<a href="@@AUTRE@@" lang="en" hreflang="en" title="English">EN</a>'
     return f"""<!DOCTYPE html>
 <html lang="{lang}" data-theme="light">
 <head>
@@ -208,7 +212,7 @@ def page(slug, lang):
 <header class="topbar">
   <a class="marque" href="index.html">{NOM} <span>BTS SIO SISR</span></a>
   <nav aria-label="{t['navlabel']}"><ul>{nav}</ul></nav>
-  <div class="outils"><a class="outil" href="{autre}" hreflang="{'fr' if en else 'en'}" lang="{'fr' if en else 'en'}">{t['autre']}</a>
+  <div class="outils"><div class="langues" role="group" aria-label="Langue / Language">{lang_fr}{lang_en}</div>
   <button class="outil" id="theme" type="button" aria-pressed="false">{t['theme']}</button></div>
 </header>
 <main id="main">{corps}</main>
