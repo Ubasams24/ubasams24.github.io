@@ -23,12 +23,12 @@
     W = window.innerWidth; H = window.innerHeight;
     c.width = W * dpr; c.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    D = W < 700 ? 110 : 150;                               // distance maximale d'une liaison
-    var n = Math.min(W < 700 ? 28 : 64, Math.round(W * H / 24000));
+    D = W < 700 ? 125 : 175;                               // distance maximale d'une liaison
+    var n = Math.min(W < 700 ? 40 : 95, Math.round(W * H / 14000));
     noeuds = []; paquets = [];
     for (var i = 0; i < n; i++) {
       noeuds.push({ x: Math.random() * W, y: Math.random() * H,
-                    vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3 });
+                    vx: (Math.random() - 0.5) * 0.45, vy: (Math.random() - 0.5) * 0.45 });
     }
   }
 
@@ -44,7 +44,7 @@
 
   function dessiner(bouger) {
     ctx.clearRect(0, 0, W, H);
-    var base = sombre ? 0.22 : 0.15, i, j, a, b, dx, dy, d;
+    var base = sombre ? 0.5 : 0.42, i, j, a, b, dx, dy, d;
 
     if (bouger) {
       for (i = 0; i < noeuds.length; i++) {
@@ -53,7 +53,7 @@
         if (a.y < -10) a.y = H + 10; else if (a.y > H + 10) a.y = -10;
       }
     }
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.2;
     for (i = 0; i < noeuds.length; i++) {
       a = noeuds[i];
       for (j = i + 1; j < noeuds.length; j++) {
@@ -64,16 +64,16 @@
         }
       }
       dx = a.x - souris.x; dy = a.y - souris.y; d = Math.sqrt(dx * dx + dy * dy);   // léger lien vers le curseur
-      if (d < 170) {
-        ctx.strokeStyle = rgba((1 - d / 170) * 0.28);
+      if (d < 210) {
+        ctx.strokeStyle = rgba((1 - d / 210) * 0.6);
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(souris.x, souris.y); ctx.stroke();
       }
-      ctx.fillStyle = rgba(sombre ? 0.5 : 0.38);
-      ctx.beginPath(); ctx.arc(a.x, a.y, 1.7, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = rgba(sombre ? 0.85 : 0.7);
+      ctx.beginPath(); ctx.arc(a.x, a.y, 2.3, 0, 6.2832); ctx.fill();
     }
 
     if (bouger) {
-      if (paquets.length < 5 && Math.random() < 0.02 && noeuds.length) {
+      if (paquets.length < 9 && Math.random() < 0.04 && noeuds.length) {
         var s = Math.floor(Math.random() * noeuds.length), t = voisin(s);
         if (t >= 0) paquets.push({ a: s, b: t, p: 0, v: 0.008 + Math.random() * 0.008 });
       }
@@ -82,8 +82,8 @@
         if (k.p >= 1) { paquets.splice(i, 1); continue; }
         a = noeuds[k.a]; b = noeuds[k.b];
         var x = a.x + (b.x - a.x) * k.p, y = a.y + (b.y - a.y) * k.p;
-        ctx.fillStyle = rgba(0.75);
-        ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 6.2832); ctx.fill();
+        ctx.fillStyle = rgba(0.18); ctx.beginPath(); ctx.arc(x, y, 7, 0, 6.2832); ctx.fill();
+        ctx.fillStyle = rgba(0.95); ctx.beginPath(); ctx.arc(x, y, 3.2, 0, 6.2832); ctx.fill();
       }
     }
   }
