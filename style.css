@@ -155,3 +155,22 @@ th{background:var(--th-fond);color:var(--th-texte)}
 .identite .accroche{font-size:1.05rem}
 .portrait{width:clamp(88px,10vw,124px)}
 @media (max-width:520px){.identite{flex-wrap:wrap}.portrait{width:104px}}
+
+/* ===== Fond animé et animations discrètes ===== */
+#fond{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+#progression{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:30;pointer-events:none}
+.paquet{fill:var(--accent)}
+
+/* soulignement qui glisse sous les liens du menu */
+.topbar nav a{position:relative}
+.topbar nav a::after{content:"";position:absolute;left:.75rem;right:.75rem;bottom:.2rem;height:2px;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.topbar nav a:hover::after{transform:scaleX(1)}
+.topbar nav a[aria-current="page"]::after{display:none}
+
+/* halo lent autour du portrait */
+@keyframes halo{0%,100%{box-shadow:0 0 0 2px var(--accent),0 8px 24px var(--ombre)}
+  50%{box-shadow:0 0 0 2px var(--accent),0 0 0 9px var(--teinte-faible),0 8px 24px var(--ombre)}}
+.portrait{animation:halo 4.5s ease-in-out infinite}
+
+@media (prefers-reduced-motion:reduce){.paquet{display:none}#progression{transition:none}}

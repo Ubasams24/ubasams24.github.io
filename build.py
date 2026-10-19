@@ -124,11 +124,12 @@ def schema(t):
     pos = [(210,32),(210,100),(210,168),(80,250),(210,250),(340,250)]
     liens = [((210,52),(210,80)),((210,120),(210,148)),((210,188),(80,230)),((210,188),(210,230)),((210,188),(340,230))]
     traits = "".join(f'<line class="lien" x1="{a[0]}" y1="{a[1]}" x2="{b[0]}" y2="{b[1]}"/>' for a,b in liens)
+    paquets = "".join(f'<circle class="paquet" r="3.2"><animateMotion dur="{d}s" repeatCount="indefinite" path="M{a[0]} {a[1]} L{x[0]} {x[1]}"/></circle>' for (a,x),d in zip(liens,[2.2,2.0,2.8,2.4,3.0]))
     noeuds = ""
     for (cx,cy),(nom,desc) in zip(pos, t["nodes"]):
         noeuds += (f'<g class="noeud" tabindex="0" role="button" aria-label="{desc}" data-desc="{desc}">'
                    f'<rect x="{cx-44}" y="{cy-20}" width="88" height="40" rx="8"/><text x="{cx}" y="{cy}">{nom}</text></g>')
-    return (f'<figure class="schema"><svg viewBox="0 0 420 285" role="group" aria-label="{t["schema_aria"]}">{traits}{noeuds}</svg>'
+    return (f'<figure class="schema"><svg viewBox="0 0 420 285" role="group" aria-label="{t["schema_aria"]}">{traits}{paquets}{noeuds}</svg>'
             f'<figcaption id="legende" aria-live="polite">{t["schema_def"]}</figcaption></figure>')
 
 def accueil(t):
@@ -205,9 +206,11 @@ def page(slug, lang):
 <title>{titre}</title>
 <meta name="description" content="{t['surtitre']} · {NOM}">
 <script>(function(){{var d=document.documentElement;d.classList.add("js");try{{var s=localStorage.getItem("theme");d.dataset.theme=s||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}}catch(e){{}}}})()</script>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
+<canvas id="fond" aria-hidden="true"></canvas>
+<div id="progression" aria-hidden="true"></div>
 <a class="skip" href="#main">{t['skip']}</a>
 <header class="topbar">
   <a class="marque" href="index.html">{NOM} <span>BTS SIO SISR</span></a>
@@ -222,7 +225,8 @@ def page(slug, lang):
   <div><strong>{t['pied_contact']}</strong><ul><li><a href="mailto:{EMAIL}">{EMAIL}</a></li><li><a href="{GITHUB}">GitHub</a></li></ul></div>
   <p class="copy">{t['copy']}</p>
 </footer>
-<script src="script.js?v=3"></script>
+<script src="script.js?v=4"></script>
+<script src="fond.js?v=4"></script>
 </body>
 </html>
 """

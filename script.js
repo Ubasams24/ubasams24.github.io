@@ -27,6 +27,16 @@
     });
   }
 
+  // Barre de progression de lecture (fine ligne en haut de la page)
+  var barre = document.getElementById("progression");
+  if (barre) {
+    var maj = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      barre.style.transform = "scaleX(" + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ")";
+    };
+    window.addEventListener("scroll", maj, { passive: true }); window.addEventListener("resize", maj); maj();
+  }
+
   // Apparition douce des blocs au défilement
   if (calme || !("IntersectionObserver" in window)) return;
   var cibles = document.querySelectorAll(".section, .fiche, .carte, .etapes li, .bloc, .table-wrap, .entete-page, .pied");
